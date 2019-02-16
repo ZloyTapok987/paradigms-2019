@@ -12,6 +12,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.nio.charset.StandardCharsets.*;
+
 /**
  * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
  */
@@ -38,7 +40,7 @@ public class MainChecker extends Randomized {
         try {
             System.setOut(new PrintStream(out, false, StandardCharsets.UTF_8));
             method.invoke(null, new Object[]{input});
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(out.toByteArray()), StandardCharsets.UTF_8));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(out.toByteArray()), UTF_8));
             final List<String> result = new ArrayList<>();
             while (true) {
                 final String line = reader.readLine();
@@ -88,6 +90,6 @@ public class MainChecker extends Randomized {
     }
 
     protected static void write(final String file, final String contents) throws IOException {
-        Files.write(Paths.get(file), contents.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(Paths.get(file), contents.getBytes(UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 }
