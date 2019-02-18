@@ -58,6 +58,25 @@ public class MdParser {
         parsedText.append(text);
     }
 
+    StringBuilder parseUrl() {
+        StringBuilder parsed = ParseText("]");
+        if (paragraph.charAt(index - 1) == ']') {
+            if (index < paragraph.length() && paragraph.charAt(index) == '(') {
+                index++;
+                StringBuilder tmp = (ParseText(")"));
+                if (paragraph.charAt(index - 1) == ')') {
+                    StringBuilder ans = new StringBuilder("<a href='");
+                    ans.append(tmp);
+                    ans.append("'>");
+                    ans.append(parsed);
+                    ans.append("</a>");
+                    return ans;
+                } else return parsed.append(tmp);
+            }
+        }
+        return parsed;
+    }
+
     private final StringBuilder ParseText(String endLine) {
         StringBuilder parsedText = new StringBuilder();
         boolean skipSymbol = false;
@@ -82,6 +101,12 @@ public class MdParser {
                 parsedText.append(converter.convertEndLine(endLine, false));
                 index += endLine.length();
                 return parsedText;
+            }
+            if (paragraph.charAt(index) == '[') {
+                index++;
+                parsedText.append(parseUrl());
+                index--;
+                continue;
             }
             if (converter.checkMarkupSymbols(index)) {
                 String markupSymbol = converter.getMarkupSymbols(index);

@@ -29,17 +29,17 @@ public class FileManager {
 
     public String paragraph() throws IOException {
         if (nextLine == null) {
-            return new String();
+            return "";
         }
         while (nextLine != null && nextLine.isEmpty()) {
             nextLine = getNextLine();
         }
         StringBuilder paragraph = new StringBuilder();
         paragraph.append(nextLine);
-        String sb;
-        while ((sb = getNextLine()) != null && !sb.isEmpty()) {
+        String line;
+        while ((line = getNextLine()) != null && !line.isEmpty()) {
             paragraph.append("\n");
-            paragraph.append(new StringBuilder(sb));
+            paragraph.append(new StringBuilder(line));
         }
         nextLine = reader.readLine();
         while (nextLine != null && nextLine.isEmpty()) {

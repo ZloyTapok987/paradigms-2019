@@ -9,6 +9,8 @@ public class Converter {
     final String text;
     final private ArrayList<String> markupSymbols = new ArrayList<>();
     final private Map<Character, String> specialSymbols = new HashMap<>();
+    final private Map<String, String> convertOpen = new HashMap<>();
+    final private Map<String, String> convertClose = new HashMap<>();
 
     Converter(String text) {
         markupSymbols.add("--");
@@ -20,6 +22,20 @@ public class Converter {
         specialSymbols.put('>', "&gt;");
         specialSymbols.put('<', "&lt;");
         specialSymbols.put('&', "&amp;");
+        convertOpen.put("**", "<strong>");
+        convertOpen.put("__", "<strong>");
+        convertOpen.put("*", "<em>");
+        convertOpen.put("_", "<em>");
+        convertOpen.put("--", "<s>");
+        convertOpen.put("`", "<code>");
+        convertClose.put("**", "</strong>");
+        convertClose.put("__", "</strong>");
+        convertClose.put("*", "</em>");
+        convertClose.put("_", "</em>");
+        convertClose.put("--", "</s>");
+        convertClose.put("`", "</code>");
+        convertClose.put(")", "");
+        convertClose.put("]", "");
         this.text = text;
     }
 
@@ -68,30 +84,10 @@ public class Converter {
         if (endLine == null) {
             return new StringBuilder();
         }
-        if (endLine.equals("**") || endLine.equals("__")) {
-            if (open) {
-                return new StringBuilder("<strong>");
-            }
-            return new StringBuilder("</strong>");
+        if (open) {
+            return new StringBuilder(convertOpen.get(endLine));
+        } else {
+            return new StringBuilder(convertClose.get(endLine));
         }
-        if (endLine.equals("*") || endLine.equals("_")) {
-            if (open) {
-                return new StringBuilder("<em>");
-            }
-            return new StringBuilder("</em>");
-        }
-        if (endLine.equals("--")) {
-            if (open) {
-                return new StringBuilder("<s>");
-            }
-            return new StringBuilder("</s>");
-        }
-        if (endLine.equals("`")) {
-            if (open) {
-                return new StringBuilder("<code>");
-            }
-            return new StringBuilder("</code>");
-        }
-        return null;
     }
 }
