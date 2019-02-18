@@ -10,6 +10,7 @@ import java.util.*;
  */
 public class Md2HtmlTest {
     protected static Map<String, String> TAGS = new HashMap<>();
+
     static {
         TAGS.put("*", "em");
         TAGS.put("**", "strong");

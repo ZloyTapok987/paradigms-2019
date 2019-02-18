@@ -33,20 +33,22 @@ public class MdParser {
             parsedParagraph.append(ParseText(null));
             parsedParagraph.append("</h" + headerLevel + ">");
         }
-       parsedParagraph.append("\n");
+        parsedParagraph.append("\n");
         return parsedParagraph;
     }
+
     private final int headerLevelParser() {
         while (paragraph.length() > index && paragraph.charAt(index) == '#') {
             index++;
         }
-        if (index!=0 && Character.isWhitespace(paragraph.charAt(index))) {
+        if (index != 0 && Character.isWhitespace(paragraph.charAt(index))) {
             index++;
             return (index - 1);
         }
         index = 0;
         return 0;
     }
+
     private void updateParsedText(StringBuilder parsedText, String endLine) {
         StringBuilder text = ParseText(endLine);
         Converter converter = new Converter(text.toString());
