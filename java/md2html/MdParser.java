@@ -50,12 +50,16 @@ public class MdParser {
     }
 
     private void updateParsedText(StringBuilder parsedText, String endLine) {
+        int ind1=index;
         StringBuilder text = ParseText(endLine);
         Converter converter = new Converter(text.toString());
         if (converter.checkEndLine(text.length() - converter.convertEndLine(endLine, false).length(), converter.convertEndLine(endLine, false).toString())) {
             parsedText.append(converter.convertEndLine(endLine, true));
-        } else parsedText.append(endLine);
-        parsedText.append(text);
+            parsedText.append(text);
+        } else{
+            parsedText.append(endLine);
+            index=ind1;
+        }
     }
 
     StringBuilder parseUrl() {
